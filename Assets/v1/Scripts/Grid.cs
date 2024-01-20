@@ -22,6 +22,14 @@ public class Grid : MonoBehaviour
         CreateGrid();
     }
 
+    public int MaxSize
+    {
+        get
+        {
+            return gridSizeX * gridSizeY;
+        }
+    }
+
     void CreateGrid()
     {
         grid = new Node[gridSizeX, gridSizeY];
@@ -84,7 +92,7 @@ public class Grid : MonoBehaviour
         {
             foreach (Node n in grid)
             {
-                Gizmos.color = (n.walkable) ? Color.white : Color.red;
+                Gizmos.color = (n.walkable) ? Color.white : Color.red; // if node is wwalkable : color = white else color = red
                 if (path != null)
                     if (path.Contains(n))
                         Gizmos.color = Color.black; // if node is used for paht  => color it black

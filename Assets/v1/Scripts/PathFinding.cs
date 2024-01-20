@@ -24,23 +24,14 @@ public class Pathfinding : MonoBehaviour
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
-        List<Node> openSet = new List<Node>();
+        Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode); // add the starting point to the list of node to search in
 
         while (openSet.Count > 0)
         {
-            Node node = openSet[0];
-            for (int i = 1; i < openSet.Count; i++) // for each node to search in
-            {
-                if (openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost) // save only the node with the best score && closest proximity to target
-                {
-                    if (openSet[i].hCost < node.hCost)
-                        node = openSet[i];
-                }
-            }
-
-            openSet.Remove(node); // node is now valid for search around and there for not part of a search
+            Node node = openSet.RemoveFirst(); ;
+           
             closedSet.Add(node);
 
             if (node == targetNode) // if node to search in is the destination , then you got to show the path
