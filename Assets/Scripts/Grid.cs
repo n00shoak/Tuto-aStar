@@ -58,12 +58,47 @@ public class Grid : MonoBehaviour
                 if (x == 0 && y == 0) // do not count self
                     continue;
 
-                int checkX = node.gridX + x;
+                // node position on grid
+                int checkX = node.gridX + x; 
                 int checkY = node.gridY + y;
 
                 if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY) // check if not out of the border of the grid
                 {
                     neighbours.Add(grid[checkX, checkY]);
+                }
+            }
+        }
+
+        // !!! not from the tutorial !!!     (its entended to be clear rather than optimized)
+        //once we checked wich node is available for mevement , we retrieve the corner to move make the search move around walls
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0) // do not count self
+                    continue;
+
+                // node position on grid
+                int checkX = node.gridX + x;
+                int checkY = node.gridY + y;
+
+
+                if (y == 0 && x != y) // tile to the left & right
+                {
+                    if(!grid[checkX, checkY].walkable) // if the tile is not walkable , we disable the adjacent corner
+                    {
+                        neighbours.Remove(grid[checkX, checkY + 1]);
+                        neighbours.Remove(grid[checkX, checkY + -1]);
+                    }
+                }
+
+                if (x == 0 && y != x) // tile to the left & right
+                {
+                    if (!grid[checkX, checkY].walkable) // if the tile is not walkable , we disable the adjacent corner
+                    {
+                        neighbours.Remove(grid[checkX + 1, checkY ]);
+                        neighbours.Remove(grid[checkX - 1, checkY]);
+                    }
                 }
             }
         }
