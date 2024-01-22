@@ -69,6 +69,8 @@ public class Grid : MonoBehaviour
             }
         }
 
+
+        /*   H S 
         // !!! not from the tutorial !!!     (its entended to be clear rather than optimized)
         //once we checked wich node is available for mevement , we retrieve the corner to move make the search move around walls
         for (int x = -1; x <= 1; x++)
@@ -101,7 +103,7 @@ public class Grid : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
         return neighbours;
     }
 
