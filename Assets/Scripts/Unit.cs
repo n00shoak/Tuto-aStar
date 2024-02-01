@@ -14,11 +14,18 @@ public class Unit : MonoBehaviour
         PathRequestManager.RequestPath(transform.position,target.position,OnPathFound);
     }
 
+    public void ChangePath()
+    {
+        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+
+    }
+
     public void OnPathFound(Vector3[] newPath,bool pathSuccessful)
     {
         if(pathSuccessful)
         {
             path = newPath;
+            targetIndex = 0;
             StopCoroutine(followPath());
             StartCoroutine(followPath());
         }
@@ -26,21 +33,23 @@ public class Unit : MonoBehaviour
 
     IEnumerator followPath()
     {
-        Vector3 currentWaypoint = path[0];
-
         while(true)
         {
-            if(transform.position == currentWaypoint)
+            if (targetIndex >= path.Length)
             {
-                targetIndex++; // go to nex waypoint
-                if(targetIndex >= path.Length)
-                {
-                    yield break;
-                }
-                currentWaypoint = path[targetIndex];
+                yield break;
             }
-            transform.position = Vector3.MoveTowards(transform.position,currentWaypoint,speed );
-            yield return null;
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, path[targetIndex], speed);
+
+                if (transform.position == path[targetIndex])
+                {
+                    targetIndex++; // go to nex waypoint
+
+                }
+                yield return null;
+            }
         }
     }
 

@@ -30,7 +30,7 @@ public class Grid : MonoBehaviour
         }
     }
 
-    void CreateGrid()
+    public void CreateGrid()
     {
         grid = new Node[gridSizeX, gridSizeY];
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
@@ -70,7 +70,7 @@ public class Grid : MonoBehaviour
         }
 
 
-        /*   H S 
+           
         // !!! not from the tutorial !!!     (its entended to be clear rather than optimized)
         //once we checked wich node is available for mevement , we retrieve the corner to move make the search move around walls
         for (int x = -1; x <= 1; x++)
@@ -84,26 +84,28 @@ public class Grid : MonoBehaviour
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
 
-
-                if (y == 0 && x != y) // tile to the left & right
+                if(checkX >= 1 && checkX < gridSizeX-1 && checkY >= 1 && checkY < gridSizeY-1) // don't check out of borders
                 {
-                    if(!grid[checkX, checkY].walkable) // if the tile is not walkable , we disable the adjacent corner
+                    if (y == 0 && x != y) // tile to the left & right
                     {
-                        neighbours.Remove(grid[checkX, checkY + 1]);
-                        neighbours.Remove(grid[checkX, checkY + -1]);
+                        if (!grid[checkX, checkY].walkable) // if the tile is not walkable , we disable the adjacent corner
+                        {
+                            neighbours.Remove(grid[checkX, checkY + 1]);
+                            neighbours.Remove(grid[checkX, checkY + -1]);
+                        }
                     }
-                }
 
-                if (x == 0 && y != x) // tile to the left & right
-                {
-                    if (!grid[checkX, checkY].walkable) // if the tile is not walkable , we disable the adjacent corner
+                    if (x == 0 && y != x) // tile to the left & right
                     {
-                        neighbours.Remove(grid[checkX + 1, checkY ]);
-                        neighbours.Remove(grid[checkX - 1, checkY]);
+                        if (!grid[checkX, checkY].walkable) // if the tile is not walkable , we disable the adjacent corner
+                        {
+                            neighbours.Remove(grid[checkX + 1, checkY]);
+                            neighbours.Remove(grid[checkX - 1, checkY]);
+                        }
                     }
                 }
             }
-        }*/
+        }
         return neighbours;
     }
 
