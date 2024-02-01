@@ -5,23 +5,25 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public Transform target;
+    public Transform shipPosition;
     public float speed = 5;
     Vector3[] path;
     int targetIndex;
 
     private void Start()
     {
-        PathRequestManager.RequestPath(transform.position,target.position,OnPathFound);
+        PathRequestManager.RequestPath(transform.position - shipPosition.position, target.position - shipPosition.position,OnPathFound);
     }
 
     public void ChangePath()
     {
-        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        PathRequestManager.RequestPath(transform.position - shipPosition.position, target.position - shipPosition.position, OnPathFound);
 
     }
 
     public void OnPathFound(Vector3[] newPath,bool pathSuccessful)
     {
+        
         if(pathSuccessful)
         {
             path = newPath;
@@ -41,9 +43,9 @@ public class Unit : MonoBehaviour
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, path[targetIndex], speed);
+                transform.position = Vector3.MoveTowards(transform.position, path[targetIndex] + shipPosition.position, speed);
 
-                if (transform.position == path[targetIndex])
+                if (transform.position == path[targetIndex] + shipPosition.position)
                 {
                     targetIndex++; // go to nex waypoint
 
@@ -60,14 +62,14 @@ public class Unit : MonoBehaviour
             for (int i = targetIndex; i < path.Length; i++)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawCube(path[i], Vector3.one);
+                Gizmos.DrawCube(path[i] + shipPosition.position, Vector3.one);
                 if(i == targetIndex)
                 {
-                    Gizmos.DrawLine(transform.position, path[i]);
+                    Gizmos.DrawLine(transform.position, path[i] + shipPosition.position);
                 }
                 else
                 {
-                    Gizmos.DrawLine(path[i-1], path[i]);
+                    Gizmos.DrawLine(path[i-1] + shipPosition.position, path[i] + shipPosition.position);
                 }
             }
         }

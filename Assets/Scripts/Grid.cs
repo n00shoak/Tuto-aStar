@@ -41,9 +41,11 @@ public class Grid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));  // if there is an object on the grid , node overlapping the object are unwalkable
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+                grid[x, y] = new Node(walkable, worldPoint, x , y);
             }
         }
+
+        Debug.Log(grid[0,0].worldPosition);
     }
 
     // check neighbour cost if there is neighbour

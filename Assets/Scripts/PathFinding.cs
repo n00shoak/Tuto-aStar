@@ -108,7 +108,7 @@ public class Pathfinding : MonoBehaviour
 
         for(int i = 1; i< path.Count; i++)
         {
-            waypoints.Add(path[i].worldPosition);
+            waypoints.Add(path[i].worldPosition - transform.position);
         }
         return waypoints.ToArray();
     }

@@ -18,14 +18,14 @@ public class GridUpdater : MonoBehaviour
 
     private void Update()
     {
-        if (Activate)
+        if(Activate)
         {
-            Activate = false;
             grid.CreateGrid();
-            for(int i = 0;  i < AllConcernedUnit.Length; i++)
+            for (int i = 0; i < AllConcernedUnit.Length; i++)
             {
                 AllConcernedUnit[i].ChangePath();
             }
+            Activate = false;
         }
     }
 }
